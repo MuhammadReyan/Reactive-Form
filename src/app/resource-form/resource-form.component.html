@@ -1,0 +1,99 @@
+<form [formGroup]="resourceForm" (ngSubmit)="onSubmit()" class="space-y-4">
+  <!-- Name Field -->
+  <div class="flex flex-col">
+    <label for="name" class="font-medium">Name:</label>
+    <input
+      id="name"
+      formControlName="name"
+      required
+      class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+      placeholder="Enter name"
+    />
+    <span *ngIf="resourceForm.get('name')?.invalid && resourceForm.get('name')?.touched" class="text-red-500 text-sm">
+      Name is required.
+    </span>
+  </div>
+
+  <!-- Description Field -->
+  <div class="flex flex-col">
+    <label for="description" class="font-medium">Description:</label>
+    <textarea
+      id="description"
+      formControlName="description"
+      required
+      class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+      placeholder="Enter description"
+    ></textarea>
+    <span *ngIf="resourceForm.get('description')?.invalid && resourceForm.get('description')?.touched" class="text-red-500 text-sm">
+      Description is required.
+    </span>
+  </div>
+
+  <!-- Type Field -->
+  <div class="flex flex-col">
+    <label for="type" class="font-medium">Type:</label>
+    <select
+      id="type"
+      formControlName="type"
+      class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+    >
+      <option value="" disabled>Select type</option>
+      <option value="Compute">Compute</option>
+      <option value="Storage">Storage</option>
+      <option value="Networking">Networking</option>
+    </select>
+    <span *ngIf="resourceForm.get('type')?.invalid && resourceForm.get('type')?.touched" class="text-red-500 text-sm">
+      Type is required.
+    </span>
+  </div>
+
+  <!-- Tags Section -->
+  <div formArrayName="tags" class="space-y-2">
+    <div *ngFor="let tag of tags.controls; let i = index" [formGroupName]="i" class="flex items-center space-x-2">
+      <input
+        formControlName="key"
+        placeholder="Key"
+        class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+      />
+      <input
+        formControlName="value"
+        placeholder="Value"
+        class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+      />
+      <button type="button" (click)="removeTag(i)" class="text-red-500 hover:underline">Remove</button>
+    </div>
+  </div>
+
+  <!-- Add Tag Button -->
+  <button type="button" (click)="addTag()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+    Add Tag
+  </button>
+
+  <!-- Submit Button -->
+  <button
+    type="submit"
+    [disabled]="resourceForm.invalid"
+    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+  >
+    Submit
+  </button>
+</form>
+
+<!-- Display Submitted Data -->
+<div *ngIf="submittedData.length > 0" class="mt-6">
+  <h3 class="font-bold text-xl mb-4">Submitted Resources</h3>
+  <div *ngFor="let resource of submittedData; let i = index" class="mb-4 p-4 border border-gray-200 rounded-md">
+    <h4 class="font-semibold">Resource {{ i + 1 }}</h4>
+    <p><strong>Name:</strong> {{ resource.name }}</p>
+    <p><strong>Description:</strong> {{ resource.description }}</p>
+    <p><strong>Type:</strong> {{ resource.type }}</p>
+    <div *ngIf="resource.tags.length > 0">
+      <p><strong>Tags:</strong></p>
+      <ul class="list-disc list-inside">
+        <li *ngFor="let tag of resource.tags">
+          {{ tag.key }}: {{ tag.value }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

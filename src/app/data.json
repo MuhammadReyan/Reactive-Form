@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Resource 1",
+    "description": "Compute instance",
+    "type": "Compute",
+    "tags": [
+      { "key": "OS", "value": "Linux" },
+      { "key": "CPU", "value": "4 cores" }
+    ]
+  },
+  {
+    "name": "Resource 2",
+    "description": "Storage bucket",
+    "type": "Storage",
+    "tags": [
+      { "key": "Capacity", "value": "500 GB" }
+    ]
+  }
+]
